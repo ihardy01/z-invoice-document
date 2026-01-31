@@ -556,7 +556,7 @@ export default function ErrorCodesPage() {
         <FooterNav
           prev={{
             title: "Định nghĩa dữ liệu",
-            href: "/docs/api/definitions",
+            href: "/dinh-nghia-truong-du-lieu",
           }}
           next={{ title: "Câu hỏi thường gặp", href: "/docs/faq" }}
         />

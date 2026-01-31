@@ -193,7 +193,10 @@ export default function InvoiceStatusPage() {
             title: "Danh sách mã lỗi",
             href: "/docs/api/error-codes",
           }}
-          next={{ title: "Định nghĩa dữ liệu", href: "/docs/api/definitions" }}
+          next={{
+            title: "Định nghĩa dữ liệu",
+            href: "/dinh-nghia-truong-du-lieu",
+          }}
         />
       </div>
 

@@ -95,7 +95,7 @@ export default function InvoiceUnsignedPage() {
             <p className="text-blue-800 m-0">
               Chi tiết về các trường dữ liệu, vui lòng xem tại:{" "}
               <Link
-                href="/docs/api/definitions"
+                href="/dinh-nghia-truong-du-lieu"
                 className="font-semibold underline hover:text-blue-600"
               >
                 Định nghĩa các trường dữ liệu
