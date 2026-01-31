@@ -46,6 +46,7 @@ const MENU_ITEMS: MenuItem[] = [
       {
         title: "Ký hiệu hóa đơn",
         url: "#",
+        isActive: true,
         items: [
           {
             title: "Lấy danh sách ký hiệu",
@@ -56,10 +57,12 @@ const MENU_ITEMS: MenuItem[] = [
       {
         title: "Quản lý hóa đơn",
         url: "#",
+        isActive: true,
         items: [
           {
             title: "Thêm hóa đơn chờ ký",
             url: "#",
+            isActive: true,
             items: [
               {
                 title: "Hóa đơn GTGT thông thường, tem vé",
@@ -104,11 +107,13 @@ const MENU_ITEMS: MenuItem[] = [
       {
         title: "Thay thế & Điều chỉnh",
         url: "#",
+        isActive: true,
         items: [
           { title: "Thay thế hóa đơn", url: "/thay-the-hoa-don" },
           {
             title: "Điều chỉnh hóa đơn",
             url: "#",
+            isActive: true,
             items: [
               {
                 title: "Tăng đơn giá hàng hoá",
@@ -165,6 +170,7 @@ const MENU_ITEMS: MenuItem[] = [
       {
         title: "Tra cứu & Truy vấn",
         url: "#",
+        isActive: true,
         items: [
           {
             title: "Tra cứu mã số thuế và căn cước công dân",
@@ -198,6 +204,7 @@ const MENU_ITEMS: MenuItem[] = [
     title: "Mã lỗi & Trạng thái",
     url: "/ma-loi-va-trang-thai",
     icon: AlertCircle,
+    isActive: true,
     items: [
       { title: "Danh sách mã lỗi", url: "/danh-sach-ma-loi" },
       { title: "Trạng thái hóa đơn", url: "/trang-thai-hoa-don" },
@@ -207,6 +214,7 @@ const MENU_ITEMS: MenuItem[] = [
     title: "Validation",
     url: "/validation",
     icon: CheckCircle,
+    isActive: true,
     items: [
       { title: "Mã số thuế", url: "/ma-so-thue" },
       {
