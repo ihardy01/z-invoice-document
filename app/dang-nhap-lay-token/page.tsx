@@ -9,34 +9,34 @@ import {
 } from "@/components/ui/breadcrumb";
 import { TableOfContents, TOCItem } from "@/components/toc";
 import { FooterNav } from "@/components/layout/footer-nav";
+import { DynamicBreadcrumb } from "@/components/layout/dynamic-breadcrumb";
+import { CodeBlock } from "@/components/ui/code-block";
 
 export default function LoginPage() {
+  const requestJson = `{
+    "username": "user",
+    "password": "password",
+    "tax_code": "tax_code"
+  }`;
+
+  const responseSuccessJson = `{
+      "code": "00",
+      "message": "Thành công",
+      "ok": true,
+      "token": "O87316arj5+Od3FhthththzdBfIuPk73eKqpAzBSvv8sY="
+  }`;
+  const responseErrorJson = `{
+"code": "99",
+"message": "Tên đăng nhập hoặc mật khẩu không đúng",
+"ok": false,
+"error": "Tên đăng nhập hoặc mật khẩu không đúng"
+}`;
   return (
     <div className="flex max-w-screen-2xl mx-auto py-12 px-6">
       {/* --- PHẦN NỘI DUNG CHÍNH (CỘT TRÁI) --- */}
       <div className="flex-1 max-w-4xl min-w-0">
         {/* 1. Breadcrumb (Shadcn UI) */}
-        <Breadcrumb className="mb-8">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/">Docs</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/docs/api">API Reference</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/docs/api/authentication">
-                Xác thực
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Đăng nhập lấy token</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+        <DynamicBreadcrumb />
 
         {/* 2. Nội dung bài viết */}
         <article className="prose prose-gray max-w-none">
@@ -133,13 +133,7 @@ export default function LoginPage() {
 
           {/* Code mẫu Request */}
           <h3 className="text-lg font-bold mt-4 mb-2">Ví dụ Request JSON</h3>
-          <pre className="bg-slate-950 text-slate-50 p-4 rounded-lg overflow-x-auto">
-            {`{
-  "username": "user",
-  "password": "password",
-  "tax_code": "tax_code"
-}`}
-          </pre>
+          <CodeBlock>{requestJson}</CodeBlock>
 
           <h2 id="response" className="text-2xl font-bold mt-8 mb-4">
             Response
@@ -149,27 +143,13 @@ export default function LoginPage() {
           <h3 id="response-success" className="text-lg font-bold mt-6 mb-2">
             Thành công
           </h3>
-          <pre className="bg-slate-950 text-slate-50 p-4 rounded-lg overflow-x-auto">
-            {`{
-    "code": "00",
-    "message": "Thành công",
-    "ok": true,
-    "token": "O87316arj5+Od3FhthththzdBfIuPk73eKqpAzBSvv8sY="
-}`}
-          </pre>
+          <CodeBlock>{responseSuccessJson}</CodeBlock>
 
           {/* Error Response */}
           <h3 id="response-error" className="text-lg font-bold mt-6 mb-2">
             Thất bại
           </h3>
-          <pre className="bg-slate-950 text-slate-50 p-4 rounded-lg overflow-x-auto">
-            {`{
-    "code": "99",
-    "message": "Tên đăng nhập hoặc mật khẩu không đúng",
-    "ok": false,
-    "error": "Tên đăng nhập hoặc mật khẩu không đúng"
-}`}
-          </pre>
+          <CodeBlock>{responseErrorJson}</CodeBlock>
         </article>
 
         {/* 3. Footer Navigation */}

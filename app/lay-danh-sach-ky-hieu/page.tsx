@@ -19,7 +19,7 @@ export default function InvoiceSeriesPage() {
         <Breadcrumb className="mb-8">
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/">Docs</BreadcrumbLink>
+              <BreadcrumbLink href="/">Trang chủ</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
