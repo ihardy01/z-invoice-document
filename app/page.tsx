@@ -138,9 +138,7 @@ export default function HomePage() {
 
       {/* Mục lục bên phải (Table of Contents) */}
       <TableOfContents>
-        <TOCItem href="#gioi-thieu" active>
-          Giới thiệu
-        </TOCItem>
+        <TOCItem href="#gioi-thieu">Giới thiệu</TOCItem>
         <TOCItem href="#moi-truong-trien-khai">Môi trường triển khai</TOCItem>
       </TableOfContents>
     </div>
