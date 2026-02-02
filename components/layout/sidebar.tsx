@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import {
   ChevronRight,
   Home,
-  BookOpen,
   Code,
   FileText,
   AlertCircle,
@@ -10,17 +11,17 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 // 1. Định nghĩa kiểu dữ liệu cho Menu Item
 interface MenuItem {
   title: string;
   url: string;
   icon?: LucideIcon;
-  isActive?: boolean;
   items?: MenuItem[];
 }
 
-// 2. Cấu hình danh sách Menu từ dữ liệu bạn cung cấp
+// 2. Cấu hình danh sách Menu
 const MENU_ITEMS: MenuItem[] = [
   {
     title: "Giới thiệu",
@@ -31,7 +32,6 @@ const MENU_ITEMS: MenuItem[] = [
     title: "API Reference",
     url: "#",
     icon: Code,
-    isActive: true, // Mặc định mở tab này
     items: [
       {
         title: "Xác thực",
@@ -46,7 +46,6 @@ const MENU_ITEMS: MenuItem[] = [
       {
         title: "Ký hiệu hóa đơn",
         url: "#",
-        isActive: true,
         items: [
           {
             title: "Lấy danh sách ký hiệu",
@@ -57,12 +56,10 @@ const MENU_ITEMS: MenuItem[] = [
       {
         title: "Quản lý hóa đơn",
         url: "#",
-        isActive: true,
         items: [
           {
             title: "Thêm hóa đơn chờ ký",
             url: "#",
-            isActive: true,
             items: [
               {
                 title: "Hóa đơn GTGT thông thường, tem vé",
@@ -107,13 +104,11 @@ const MENU_ITEMS: MenuItem[] = [
       {
         title: "Thay thế & Điều chỉnh",
         url: "#",
-        isActive: true,
         items: [
           { title: "Thay thế hóa đơn", url: "/thay-the-hoa-don" },
           {
             title: "Điều chỉnh hóa đơn",
             url: "#",
-            isActive: true,
             items: [
               {
                 title: "Tăng đơn giá hàng hoá",
@@ -170,7 +165,6 @@ const MENU_ITEMS: MenuItem[] = [
       {
         title: "Tra cứu & Truy vấn",
         url: "#",
-        isActive: true,
         items: [
           {
             title: "Tra cứu mã số thuế và căn cước công dân",
@@ -204,7 +198,6 @@ const MENU_ITEMS: MenuItem[] = [
     title: "Mã lỗi & Trạng thái",
     url: "/ma-loi-va-trang-thai",
     icon: AlertCircle,
-    isActive: true,
     items: [
       { title: "Danh sách mã lỗi", url: "/danh-sach-ma-loi" },
       { title: "Trạng thái hóa đơn", url: "/trang-thai-hoa-don" },
@@ -214,7 +207,6 @@ const MENU_ITEMS: MenuItem[] = [
     title: "Validation",
     url: "/validation",
     icon: CheckCircle,
-    isActive: true,
     items: [
       { title: "Mã số thuế", url: "/ma-so-thue" },
       {
@@ -236,13 +228,13 @@ export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
       <aside
         className={`
           fixed lg:static top-16 left-0 bottom-0 w-72 bg-white border-r border-gray-200
-          transition-transform duration-300 z-40 flex-none
+          transition-transform duration-300 z-50 flex-none
           ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
-          h-full overflow-y-auto
+          h-[calc(100vh-4rem)] overflow-y-auto pb-10
         `}
       >
         <div className="p-6">
-          {/* Version Selector (Giữ nguyên) */}
+          {/* Version Selector */}
           <div className="mb-6">
             <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 block">
               Phiên bản API
@@ -252,7 +244,7 @@ export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
             </select>
           </div>
 
-          {/* Navigation Tree - Sử dụng dữ liệu mới */}
+          {/* Navigation Tree */}
           <nav className="space-y-1">
             {MENU_ITEMS.map((item, index) => (
               <SidebarMenuItem key={index} item={item} />
@@ -264,7 +256,7 @@ export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
       {/* Overlay for mobile */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden top-16"
           onClick={() => setIsOpen(false)}
         />
       )}
@@ -272,11 +264,31 @@ export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
   );
 }
 
-// 3. Component đệ quy để hiển thị Menu đa cấp
+// Helper: Kiểm tra xem item con có đang active không
+function isItemActive(item: MenuItem, currentPath: string): boolean {
+  if (item.url === currentPath) return true;
+  if (item.items) {
+    return item.items.some((child) => isItemActive(child, currentPath));
+  }
+  return false;
+}
+
+// 3. Component đệ quy hiển thị Menu
 function SidebarMenuItem({ item }: { item: MenuItem }) {
-  // Mặc định mở nếu có prop isActive, hoặc user click mở
-  const [isOpen, setIsOpen] = useState(item.isActive || false);
+  const pathname = usePathname();
+  const isActive = item.url === pathname;
+  // Kiểm tra có con nào active không để mở accordion mặc định
+  const hasActiveChild = item.items
+    ? item.items.some((child) => isItemActive(child, pathname))
+    : false;
+
+  const [isOpen, setIsOpen] = useState(hasActiveChild);
   const hasChildren = item.items && item.items.length > 0;
+
+  // Cập nhật trạng thái mở khi path thay đổi (nếu user click link con)
+  useEffect(() => {
+    if (hasActiveChild) setIsOpen(true);
+  }, [hasActiveChild]);
 
   if (hasChildren) {
     return (
@@ -285,8 +297,11 @@ function SidebarMenuItem({ item }: { item: MenuItem }) {
           onClick={() => setIsOpen(!isOpen)}
           className={`
             flex items-center justify-between w-full px-2 py-1.5 text-sm rounded-lg transition-colors
-            text-gray-700 hover:bg-gray-50 hover:text-black
-            ${isOpen ? "font-medium text-black" : ""}
+            ${
+              hasActiveChild || isOpen
+                ? "text-black font-medium"
+                : "text-gray-700 hover:bg-gray-50 hover:text-black"
+            }
           `}
         >
           <div className="flex items-center gap-2">
@@ -313,14 +328,17 @@ function SidebarMenuItem({ item }: { item: MenuItem }) {
     );
   }
 
-  // Trường hợp không có con (Link đơn thuần)
+  // Trường hợp Link đơn thuần
   return (
     <Link href={item.url} className="block">
       <div
         className={`
           flex items-center gap-2 px-2 py-1.5 text-sm rounded-lg transition-colors
-          text-gray-600 hover:bg-gray-50 hover:text-black
-          ${item.isActive ? "bg-gray-100 text-black font-medium" : ""}
+          ${
+            isActive
+              ? "bg-gray-100 text-black font-bold"
+              : "text-gray-600 hover:bg-gray-50 hover:text-black"
+          }
         `}
       >
         {item.icon && <item.icon size={16} className="text-gray-500" />}
