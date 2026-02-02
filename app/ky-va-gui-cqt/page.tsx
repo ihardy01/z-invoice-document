@@ -10,6 +10,9 @@ import {
 import { TableOfContents, TOCItem } from "@/components/toc";
 import { FooterNav } from "@/components/layout/footer-nav";
 import Link from "next/link";
+import { DynamicBreadcrumb } from "@/components/layout/dynamic-breadcrumb";
+import { CodeBlock } from "@/components/ui/code-block";
+import { Code } from "lucide-react";
 
 export default function InvoiceUnsignedPage() {
   return (
@@ -17,32 +20,13 @@ export default function InvoiceUnsignedPage() {
       {/* --- PHẦN NỘI DUNG CHÍNH (CỘT TRÁI) --- */}
       <div className="flex-1 max-w-4xl min-w-0">
         {/* 1. Breadcrumb */}
-        <Breadcrumb className="mb-8">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/">Docs</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/docs/api">API Reference</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/docs/api/invoices">Hóa đơn</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Ký và gửi CQT</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+        <DynamicBreadcrumb />
 
         {/* 2. Nội dung bài viết */}
         <article className="prose prose-gray max-w-none">
           <h1 className="text-4xl font-bold mb-4">Ký và gửi CQT</h1>
           <p className="text-xl text-gray-600 mb-8">
-            API này dùng để tạo mới và phát hành hóa đơn GTGT, hóa đơn bán hàng
-            thông thường hoặc tem vé.
+            API này dùng để ký và gửi hoá đơn lên CQT.
           </p>
 
           <h2 id="overview" className="text-2xl font-bold mt-8 mb-4">
@@ -91,11 +75,11 @@ export default function InvoiceUnsignedPage() {
 
           {/* Code mẫu Request */}
           <h3 className="text-lg font-bold mt-4 mb-2">Ví dụ Request JSON</h3>
-          <pre className="bg-slate-950 text-slate-50 p-4 rounded-lg overflow-x-auto max-h-[500px]">
+          <CodeBlock>
             {`{
   "hoadon68_id": "5fc578a6-1ca1-46f9-ab4f-6a0de4b54c32"
 }`}
-          </pre>
+          </CodeBlock>
 
           <h2 id="response" className="text-2xl font-bold mt-8 mb-4">
             Response
@@ -104,23 +88,23 @@ export default function InvoiceUnsignedPage() {
           <h3 id="response-success" className="text-lg font-bold mt-6 mb-2">
             Thành công
           </h3>
-          <pre className="bg-slate-950 text-slate-50 p-4 rounded-lg overflow-x-auto">
+          <CodeBlock>
             {`{
   "code": "00",
   "message": "Thành công"
 }`}
-          </pre>
+          </CodeBlock>
 
           {/* Error Response */}
           <h3 id="response-error" className="text-lg font-bold mt-6 mb-2">
             Thất bại
           </h3>
-          <pre className="bg-slate-950 text-slate-50 p-4 rounded-lg overflow-x-auto">
+          <CodeBlock>
             {`{
   "code": "xx",
   "message": "....................................."
 }`}
-          </pre>
+          </CodeBlock>
         </article>
 
         {/* 3. Footer Navigation */}

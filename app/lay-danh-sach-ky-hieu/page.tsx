@@ -9,34 +9,62 @@ import {
 } from "@/components/ui/breadcrumb";
 import { TableOfContents, TOCItem } from "@/components/toc";
 import { FooterNav } from "@/components/layout/footer-nav";
+import { DynamicBreadcrumb } from "@/components/layout/dynamic-breadcrumb";
+import { CodeBlock } from "@/components/ui/code-block";
 
 export default function InvoiceSeriesPage() {
+  const responseSuccessJson = `{
+  "code": "00",
+  "message": "Thành công",
+  "ok": true,
+  "data": [
+  {
+  "id": "3a08d649-2284-2577-7b7d-91a284f25eb3",
+  "quanlykyhieu68_id": "6252b95a-b64e-4ccf-b76b-ac812ae1efc0",
+  "khhdon": "6C23NYY",
+  "value": "6C23NYY",
+  "invoiceForm": "6",
+  "invoiceYear": 23,
+  "number": null,
+  "orders": null,
+  "invoiceTypeName": "Phiếu xuất kho kiêm vận chuyển nội bộ"
+  },
+  {
+  "id": "3a08d64c-0484-e9eb-3a4b-89258c82ee14",
+  "quanlykyhieu68_id": "6252b95a-b64e-4ccf-b76b-ac812ae1efc0",
+  "khhdon": "5C23TYY",
+  "value": "5C23TYY",
+  "invoiceForm": "5",
+  "invoiceYear": 23,
+  "number": null,
+  "orders": null,
+  "invoiceTypeName": "Tém vé thẻ điện tử"
+  },
+  {
+  "id": "3a08d64c-ef81-e29a-963b-55d8d06df81e",
+  "quanlykyhieu68_id": "6252b95a-b64e-4ccf-b76b-ac812ae1efc0",
+  "khhdon": "2C23MYY",
+  "value": "2C23MYY",
+  "invoiceForm": "2",
+  "invoiceYear": 23,
+  "number": null,
+  "orders": null,
+  "invoiceTypeName": "Hóa đơn bán hàng"
+  }
+  ]
+}`;
+  const responseErrorJson = `{
+  "code": "99",
+  "message": "Lỗi hệ thống hoặc Token không hợp lệ",
+  "ok": false,
+  "data": null
+}`;
   return (
     <div className="flex max-w-screen-2xl mx-auto py-12 px-6">
       {/* --- PHẦN NỘI DUNG CHÍNH (CỘT TRÁI) --- */}
       <div className="flex-1 max-w-4xl min-w-0">
         {/* 1. Breadcrumb */}
-        <Breadcrumb className="mb-8">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/">Trang chủ</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/docs/api">API Reference</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/docs/api/invoice-symbols">
-                Danh mục
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Lấy danh sách ký hiệu</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+        <DynamicBreadcrumb />
 
         {/* 2. Nội dung bài viết */}
         <article className="prose prose-gray max-w-none">
@@ -142,65 +170,17 @@ export default function InvoiceSeriesPage() {
           </h2>
 
           <h3 id="response-success" className="text-lg font-bold mt-6 mb-2">
-            Thành công (Code 00)
+            Thành công
           </h3>
-          <pre className="bg-slate-950 text-slate-50 p-4 rounded-lg overflow-x-auto max-h-[500px]">
-            {`{
-  "code": "00",
-  "message": "Thành công",
-  "ok": true,
-  "data": [
-    {
-      "id": "3a08d649-2284-2577-7b7d-91a284f25eb3",
-      "quanlykyhieu68_id": "6252b95a-b64e-4ccf-b76b-ac812ae1efc0",
-      "khhdon": "6C23NYY",
-      "value": "6C23NYY",
-      "invoiceForm": "6",
-      "invoiceYear": 23,
-      "number": null,
-      "orders": null,
-      "invoiceTypeName": "Phiếu xuất kho kiêm vận chuyển nội bộ"
-    },
-    {
-      "id": "3a08d64c-0484-e9eb-3a4b-89258c82ee14",
-      "quanlykyhieu68_id": "6252b95a-b64e-4ccf-b76b-ac812ae1efc0",
-      "khhdon": "5C23TYY",
-      "value": "5C23TYY",
-      "invoiceForm": "5",
-      "invoiceYear": 23,
-      "number": null,
-      "orders": null,
-      "invoiceTypeName": "Tém vé thẻ điện tử"
-    },
-    {
-      "id": "3a08d64c-ef81-e29a-963b-55d8d06df81e",
-      "quanlykyhieu68_id": "6252b95a-b64e-4ccf-b76b-ac812ae1efc0",
-      "khhdon": "2C23MYY",
-      "value": "2C23MYY",
-      "invoiceForm": "2",
-      "invoiceYear": 23,
-      "number": null,
-      "orders": null,
-      "invoiceTypeName": "Hóa đơn bán hàng"
-    }
-  ]
-}`}
-          </pre>
+          <CodeBlock>{responseSuccessJson}</CodeBlock>
 
           <h3 id="response-error" className="text-lg font-bold mt-6 mb-2">
-            Thất bại (Code khác 00)
+            Thất bại
           </h3>
           <p className="text-gray-600 mb-2">
             Trường hợp token không hợp lệ hoặc lỗi hệ thống.
           </p>
-          <pre className="bg-slate-950 text-slate-50 p-4 rounded-lg overflow-x-auto">
-            {`{
-  "code": "99",
-  "message": "Lỗi hệ thống hoặc Token không hợp lệ",
-  "ok": false,
-  "data": null
-}`}
-          </pre>
+          <CodeBlock>{responseErrorJson}</CodeBlock>
 
           {/* --- Định nghĩa Output --- */}
           <h2 id="output-definitions" className="text-2xl font-bold mt-8 mb-4">

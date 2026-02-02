@@ -9,40 +9,24 @@ import {
 } from "@/components/ui/breadcrumb";
 import { TableOfContents, TOCItem } from "@/components/toc";
 import { FooterNav } from "@/components/layout/footer-nav";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
+import { DynamicBreadcrumb } from "@/components/layout/dynamic-breadcrumb";
+import { CodeBlock } from "@/components/ui/code-block";
 
-export default function InvoiceUnsignedPage() {
+export default function InvoiceTaxReductionPage() {
   return (
     <div className="flex max-w-screen-2xl mx-auto py-12 px-6">
       {/* --- PHẦN NỘI DUNG CHÍNH (CỘT TRÁI) --- */}
       <div className="flex-1 max-w-4xl min-w-0">
         {/* 1. Breadcrumb */}
-        <Breadcrumb className="mb-8">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/">Docs</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/docs/api">API Reference</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/docs/api/invoices">Hóa đơn</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Xoá hoá đơn chưa ký</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+        <DynamicBreadcrumb />
 
         {/* 2. Nội dung bài viết */}
         <article className="prose prose-gray max-w-none">
-          <h1 className="text-4xl font-bold mb-4">Xoá hoá đơn chưa ký</h1>
+          <h1 className="text-4xl font-bold mb-4">Xoá hoá đơn chờ ký</h1>
           <p className="text-xl text-gray-600 mb-8">
-            API này dùng để tạo mới và phát hành hóa đơn GTGT, hóa đơn bán hàng
-            thông thường hoặc tem vé.
+            API này hỗ trợ xoá hoá đơn chờ ký.
           </p>
 
           <h2 id="overview" className="text-2xl font-bold mt-8 mb-4">
@@ -86,7 +70,7 @@ export default function InvoiceUnsignedPage() {
             Request
           </h2>
 
-          <div className="p-4 bg-blue-50 border border-blue-100 rounded-lg mb-6">
+          <div className="p-4 bg-blue-50 border border-blue-100 rounded-lg mb-6 not-prose">
             <p className="text-blue-800 m-0">
               Chi tiết về các trường dữ liệu, vui lòng xem tại:{" "}
               <Link
@@ -98,240 +82,123 @@ export default function InvoiceUnsignedPage() {
             </p>
           </div>
 
-          {/* Code mẫu Request */}
-          <h3 className="text-lg font-bold mt-4 mb-2">Ví dụ Request JSON</h3>
-          <pre className="bg-slate-950 text-slate-50 p-4 rounded-lg overflow-x-auto max-h-[500px]">
-            {`{
-    "editmode": 1,
+          <p className="mb-4">
+            Dưới đây là ví dụ JSON cho 2 trường hợp áp dụng giảm thuế:
+          </p>
+
+          <Tabs defaultValue="th1" className="not-prose">
+            <TabsList className="w-full justify-start border-b rounded-none h-auto p-0 bg-transparent space-x-6">
+              <TabsTrigger
+                value="th1"
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 data-[state=active]:shadow-none px-4 py-3"
+              >
+                TH1: Đã có sẵn ký hiệu và số hoá đơn
+              </TabsTrigger>
+              <TabsTrigger
+                value="th2"
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 data-[state=active]:shadow-none px-4 py-3"
+              >
+                TH2: Chưa có số hoá đơn
+              </TabsTrigger>
+            </TabsList>
+
+            {/* TH1: GIẢM THUẾ TRÊN CẢ HOÁ ĐƠN */}
+            <TabsContent value="th1" className="mt-4">
+              <div className="bg-slate-950 text-slate-50 p-4 rounded-lg overflow-x-auto max-h-[500px]">
+                <CodeBlock>
+                  {`{
+    "editmode": 3,
     "data": [
         {
-            "inv_invoiceSeries": "1C26TYY",
-            "inv_invoiceIssuedDate": "2026-01-15",
-            "inv_currencyCode": "VND",
-            "inv_exchangeRate": 1,
-            "so_benh_an": "A123DE64",
-            "inv_buyerDisplayName": "Nguyễn Văn A",
-            "inv_buyerLegalName": "CÔNG TY M-INVOICE",
-            "inv_buyerTaxCode": "0106026495-999",
-            "inv_buyerAddressLine": "Giáp Bát, Hoàng Mai, Hà Nội",
-            "inv_buyerEmail": "abc@gmail.com",
-            "inv_buyerBankAccount": "100003131",
-            "inv_buyerBankName": "Ngân hàng TMCP Á Châu - ACB",
-            "inv_paymentMethodName": "TM/CK",
-            "inv_discountAmount": 0,
-            "inv_TotalAmountWithoutVat": 610000,
-            "inv_vatAmount": 48800,
-            "inv_TotalAmount": 658800,
-            "key_api": "ADEFP123dHAJDH",
-            "cccdan": "034090008484",
-            "so_hchieu": "G1A2B3C4D",
-            "mdvqhnsach_nmua": "2000005",
-            "ma_ch": "CUAHANG001",
-            "ten_ch": "Cửa hàng xăng dầu 001",
-            "details": [
-                {
-                    "data": [
-                        {
-                            "tchat": 1,
-                            "stt_rec0": 1,
-                            "inv_itemCode": "HH001",
-                            "inv_itemName": "Hàng hóa 001",
-                            "inv_unitCode": "Phần",
-                            "inv_quantity": 1,
-                            "inv_unitPrice": 120000,
-                            "inv_discountPercentage": 0,
-                            "inv_discountAmount": 0,
-                            "inv_TotalAmountWithoutVat": 120000,
-                            "ma_thue": 8,
-                            "inv_vatAmount": 9600,
-                            "inv_TotalAmount": 129600
-                        },
-                        {
-                            "tchat": 1,
-                            "stt_rec0": 2,
-                            "inv_itemCode": "HH002",
-                            "inv_itemName": "Hàng hóa 002",
-                            "inv_unitCode": "Phần",
-                            "inv_quantity": 2,
-                            "inv_unitPrice": 245000,
-                            "inv_discountPercentage": 0,
-                            "inv_discountAmount": 0,
-                            "inv_TotalAmountWithoutVat": 490000,
-                            "ma_thue": 8,
-                            "inv_vatAmount": 39200,
-                            "inv_TotalAmount": 529200
-                        }
-                    ]
-                }
-            ]
+            "inv_invoiceSeries": "1C22TMX",
+            "inv_invoiceNumber": 6
         }
     ]
 }`}
-          </pre>
+                </CodeBlock>
+              </div>
+            </TabsContent>
+
+            {/* TH2: GIẢM TRÊN TỪNG DÒNG HÀNG */}
+            <TabsContent value="th2" className="mt-4">
+              <div className="bg-slate-950 text-slate-50 p-4 rounded-lg overflow-x-auto max-h-[500px]">
+                <CodeBlock>
+                  {`{
+    "editmode": 3,
+    "data": [
+        {
+            "inv_invoiceSeries":"6C23NAB",
+            "inv_invoiceAuth_Id": "3a0aaa84-3eb7-7fd7-5079-4f7e8f685a64"
+        }
+    ]
+}`}
+                </CodeBlock>
+              </div>
+            </TabsContent>
+          </Tabs>
 
           <h2 id="response" className="text-2xl font-bold mt-8 mb-4">
             Response
           </h2>
 
-          <h3 className="text-lg font-bold mt-6 mb-2">Kết quả trả về</h3>
-          <pre className="bg-slate-950 text-slate-50 p-4 rounded-lg overflow-x-auto max-h-[500px]">
-            {`{
+          <Tabs defaultValue="th1" className="not-prose">
+            <TabsList className="w-full justify-start border-b rounded-none h-auto p-0 bg-transparent space-x-6">
+              <TabsTrigger
+                value="th1"
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 data-[state=active]:shadow-none px-4 py-3"
+              >
+                TH1: Kết quả (Đã có sẵn ký hiệu và số hóa đơn)
+              </TabsTrigger>
+              <TabsTrigger
+                value="th2"
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 data-[state=active]:shadow-none px-4 py-3"
+              >
+                TH2: Kết quả (Chưa có số hóa đơn)
+              </TabsTrigger>
+            </TabsList>
+
+            {/* RESPONSE TH1 */}
+            <TabsContent value="th1" className="mt-4">
+              <div className="bg-slate-950 text-slate-50 p-4 rounded-lg overflow-x-auto max-h-[500px]">
+                <CodeBlock>
+                  {`{
+    "code": "00",
+    "message": "Thành công",
+    "data": {
+        "inv_invoiceSeries": "1C22TMX",
+        "inv_invoiceNumber": 6,
+        "inv_discountAmount": "0"
+    }
+}`}
+                </CodeBlock>
+              </div>
+            </TabsContent>
+
+            {/* RESPONSE TH2 */}
+            <TabsContent value="th2" className="mt-4">
+              <div className="bg-slate-950 text-slate-50 p-4 rounded-lg overflow-x-auto max-h-[500px]">
+                <CodeBlock>
+                  {`{
     "code": "00",
     "message": null,
     "ok": true,
     "data": {
-        "key_api": "ADEFP123dHAJDH",
-        "inv_invoiceAuth_id": "3a1ed1c1-f469-2875-d3a5-e5f67444f47a",
-        "inv_originalId": "3a1ed1c1-f469-2875-d3a5-e5f67444f47a",
-        "inv_invoiceIssuedDate": "2026-01-15T00:00:00",
-        "inv_invoiceSeries": "1C26TYY",
-        "inv_invoiceNumber": 10,
-        "so_benh_an": "A123DE64",
-        "inv_currencyCode": "VND",
-        "inv_exchangeRate": 1,
-        "inv_paymentMethodName": "TM/CK",
-        "inv_buyerDisplayName": "Nguyễn Văn A",
-        "inv_buyerLegalName": "M-invoice kiểm thử HĐĐT có mã",
-        "inv_buyerTaxCode": "0106026495-999",
-        "inv_buyerAddressLine": "Hà Nội",
-        "inv_buyerEmail": "abc@gmail.com",
-        "inv_buyerBankAccount": "100003131",
-        "inv_buyerBankName": "Ngân hàng TMCP Á Châu - ACB",
-        "OrtherTax": null,
-        "environmentalProtectionFee": null,
-        "connectorMaintenanceFee": null,
-        "drainageFee": null,
-        "serviceCharge": null,
-        "ortherFee": null,
-        "deductionVatamount": null,
-        "inv_TotalAmount": 658800,
-        "inv_discountAmount": 0,
-        "inv_vatAmount": 48800,
-        "inv_TotalAmountWithoutVat": 610000,
-        "inv_Amount": 610000,
-        "trang_thai": 1,
-        "trang_thai_hd": 0,
-        "sobaomat": "963E56C4",
-        "macqt": null,
-        "shdon": 10,
-        "ten": "M-invoice kiểm thử HĐĐT có mã",
-        "tnmua": "Nguyễn Văn A",
-        "mst": "0106026495-999",
-        "dchi": "Hà Nội",
-        "buyerTel": null,
-        "buyerIdentityCard": "034090008484",
-        "email": "abc@gmail.com",
-        "hoadon68_id": "3a1ed1c1-f469-2875-d3a5-e5f67444f47a",
-        "is_tthdon": "0",
-        "tthai": "Chờ ký",
-        "tgtcthue": 610000,
-        "tgtthue": 48800,
-        "tgtttbso": 658800,
-        "isOtherSystem": null,
-        "relatedInvoiceListDate": null,
-        "relatedInvoiceListNumber": null,
-        "relatedInvoiceDate": null,
-        "relatedInvoiceNumber": null,
-        "relatedInvoiceType": null,
-        "relatedInvoiceSerial": null,
-        "relatedTemplateCode": null,
-        "ghi_chu": null,
-        "is_success": null,
-        "note_error": null,
-        "id": "3a1ed1c1-f469-2875-d3a5-e5f67444f47a",
-        "phong": null,
-        "doan": null,
-        "ngayden": null,
-        "ngaydi": null,
-        "phidv": 0,
-        "nonTaxZone": null,
-        "so_phong": null,
-        "so_folio": null,
-        "fieldName0": null,
-        "inv_departureDate": null,
-        "tencuahang": "Cửa hàng xăng dầu 001",
-        "dchicuahang": null,
-        "macuahang": "CUAHANG001",
-        "ma_dt": null,
-        "ma_voi_bom": null,
-        "bien_so_xe": null,
-        "inv_productCode": null,
-        "inv_productName": null,
-        "socialDeductionAmount": null,
-        "ratioOrtherTax": null,
-        "so_hchieu": "G1A2B3C4D",
-        "mdvqhnsach_nmua": "2000005",
-        "ten_ch": "Cửa hàng xăng dầu 001",
-        "ma_ch": "CUAHANG001",
-        "cccd": "034090008484",
-        "cccdan": "034090008484",
-        "sdtnmua": null,
-        "vinpoint_tichluy": null,
-        "vinpoint_thanhtoan": null,
-        "details": {
-            "data": [
-                {
-                    "tchat": 1,
-                    "stt_rec0": "1",
-                    "inv_itemCode": "HH001",
-                    "inv_itemName": "Hàng hóa 001",
-                    "inv_unitCode": "Phần",
-                    "inv_quantity": 1,
-                    "inv_unitPrice": 120000,
-                    "phidichvu": null,
-                    "inv_discountPercentage": 0,
-                    "inv_discountAmount": 0,
-                    "inv_Amount": 120000,
-                    "inv_TotalAmountWithoutVat": 120000,
-                    "ma_thue": "8",
-                    "inv_vatAmount": 9600,
-                    "inv_TotalAmount": 129600,
-                    "skhung": null,
-                    "smay": null,
-                    "bien_sxe": null,
-                    "ten_ngui": null,
-                    "mst_ngui": null,
-                    "san_luong": null,
-                    "sddanh_ngui": null,
-                    "dchi_ngui": null
-                },
-                {
-                    "tchat": 1,
-                    "stt_rec0": "2",
-                    "inv_itemCode": "HH002",
-                    "inv_itemName": "Hàng hóa 002",
-                    "inv_unitCode": "Phần",
-                    "inv_quantity": 2,
-                    "inv_unitPrice": 245000,
-                    "phidichvu": null,
-                    "inv_discountPercentage": 0,
-                    "inv_discountAmount": 0,
-                    "inv_Amount": 490000,
-                    "inv_TotalAmountWithoutVat": 490000,
-                    "ma_thue": "8",
-                    "inv_vatAmount": 39200,
-                    "inv_TotalAmount": 529200,
-                    "skhung": null,
-                    "smay": null,
-                    "bien_sxe": null,
-                    "ten_ngui": null,
-                    "mst_ngui": null,
-                    "san_luong": null,
-                    "sddanh_ngui": null,
-                    "dchi_ngui": null
-                }
-            ]
-        }
+        "inv_invoiceSeries": "6C23NAB",
+        "inv_invoiceAuth_Id": "3a0aaa84-3eb7-7fd7-5079-4f7e8f685a64",
+        "key_api": "TICH_HOP"
     }
 }`}
-          </pre>
+                </CodeBlock>
+              </div>
+            </TabsContent>
+          </Tabs>
         </article>
 
         {/* 3. Footer Navigation */}
         <FooterNav
           prev={{
-            title: "Lấy danh sách ký hiệu",
-            href: "/docs/api/invoice-symbols/list",
+            title: "Hóa đơn GTGT, thông thường",
+            href: "/docs/api/invoice-unsigned",
           }}
           next={{
             title: "Điều chỉnh hóa đơn",

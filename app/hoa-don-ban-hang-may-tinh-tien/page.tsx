@@ -10,6 +10,8 @@ import {
 import { TableOfContents, TOCItem } from "@/components/toc";
 import { FooterNav } from "@/components/layout/footer-nav";
 import Link from "next/link";
+import { DynamicBreadcrumb } from "@/components/layout/dynamic-breadcrumb";
+import { CodeBlock } from "@/components/ui/code-block";
 
 export default function InvoiceUnsignedPage() {
   return (
@@ -17,36 +19,15 @@ export default function InvoiceUnsignedPage() {
       {/* --- PHẦN NỘI DUNG CHÍNH (CỘT TRÁI) --- */}
       <div className="flex-1 max-w-4xl min-w-0">
         {/* 1. Breadcrumb */}
-        <Breadcrumb className="mb-8">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/">Docs</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/docs/api">API Reference</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/docs/api/invoices">Hóa đơn</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>
-                Hóa đơn GTGT, thông thường, tem vé
-              </BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+        <DynamicBreadcrumb />
 
         {/* 2. Nội dung bài viết */}
         <article className="prose prose-gray max-w-none">
           <h1 className="text-4xl font-bold mb-4">
-            Hóa đơn GTGT, thông thường, tem vé
+            Hóa đơn bán hàng máy tính tiền
           </h1>
           <p className="text-xl text-gray-600 mb-8">
-            API này dùng để tạo mới và phát hành hóa đơn GTGT, hóa đơn bán hàng
-            thông thường hoặc tem vé.
+            API này dùng để tạo mới và phát hành hóa đơn bán hàng máy tính tiền.
           </p>
 
           <h2 id="overview" className="text-2xl font-bold mt-8 mb-4">
@@ -104,12 +85,12 @@ export default function InvoiceUnsignedPage() {
 
           {/* Code mẫu Request */}
           <h3 className="text-lg font-bold mt-4 mb-2">Ví dụ Request JSON</h3>
-          <pre className="bg-slate-950 text-slate-50 p-4 rounded-lg overflow-x-auto max-h-[500px]">
+          <CodeBlock>
             {`{
     "editmode": 1,
     "data": [
         {
-            "inv_invoiceSeries": "1C26TYY",
+            "inv_invoiceSeries": "2C26MLN",
             "inv_invoiceIssuedDate": "2026-01-15",
             "inv_currencyCode": "VND",
             "inv_exchangeRate": 1,
@@ -122,11 +103,11 @@ export default function InvoiceUnsignedPage() {
             "inv_buyerBankAccount": "100003131",
             "inv_buyerBankName": "Ngân hàng TMCP Á Châu - ACB",
             "inv_paymentMethodName": "TM/CK",
+            "nonTaxZone": 0,
+            "isDeductionNQ43": false,
             "inv_discountAmount": 0,
-            "inv_TotalAmountWithoutVat": 610000,
-            "inv_vatAmount": 48800,
-            "inv_TotalAmount": 658800,
-            "key_api": "ADEFP123dHAJDH",
+            "inv_TotalAmount": 610000,
+            "key_api": "ADEFH123HAKDH",
             "cccdan": "034090008484",
             "so_hchieu": "G1A2B3C4D",
             "mdvqhnsach_nmua": "2000005",
@@ -145,10 +126,7 @@ export default function InvoiceUnsignedPage() {
                             "inv_unitPrice": 120000,
                             "inv_discountPercentage": 0,
                             "inv_discountAmount": 0,
-                            "inv_TotalAmountWithoutVat": 120000,
-                            "ma_thue": 8,
-                            "inv_vatAmount": 9600,
-                            "inv_TotalAmount": 129600
+                            "inv_TotalAmountWithoutVat": 120000
                         },
                         {
                             "tchat": 1,
@@ -160,10 +138,7 @@ export default function InvoiceUnsignedPage() {
                             "inv_unitPrice": 245000,
                             "inv_discountPercentage": 0,
                             "inv_discountAmount": 0,
-                            "inv_TotalAmountWithoutVat": 490000,
-                            "ma_thue": 8,
-                            "inv_vatAmount": 39200,
-                            "inv_TotalAmount": 529200
+                            "inv_TotalAmountWithoutVat": 490000
                         }
                     ]
                 }
@@ -171,25 +146,25 @@ export default function InvoiceUnsignedPage() {
         }
     ]
 }`}
-          </pre>
+          </CodeBlock>
 
           <h2 id="response" className="text-2xl font-bold mt-8 mb-4">
             Response
           </h2>
 
           <h3 className="text-lg font-bold mt-6 mb-2">Kết quả trả về</h3>
-          <pre className="bg-slate-950 text-slate-50 p-4 rounded-lg overflow-x-auto max-h-[500px]">
+          <CodeBlock>
             {`{
     "code": "00",
     "message": null,
     "ok": true,
     "data": {
-        "key_api": "ADEFP123dHAJDH",
-        "inv_invoiceAuth_id": "3a1ed1c1-f469-2875-d3a5-e5f67444f47a",
-        "inv_originalId": "3a1ed1c1-f469-2875-d3a5-e5f67444f47a",
+        "key_api": "ADEFH123HAKDH",
+        "inv_invoiceAuth_id": "3a1ed1bf-5946-a3e3-c27d-4b4ff2cab363",
         "inv_invoiceIssuedDate": "2026-01-15T00:00:00",
-        "inv_invoiceSeries": "1C26TYY",
-        "inv_invoiceNumber": 10,
+        "inv_invoiceSeries": "2C26MLN",
+        "inv_originalId": "3a1ed1bf-5946-a3e3-c27d-4b4ff2cab363",
+        "inv_invoiceNumber": 13,
         "so_benh_an": "A123DE64",
         "inv_currencyCode": "VND",
         "inv_exchangeRate": 1,
@@ -201,77 +176,40 @@ export default function InvoiceUnsignedPage() {
         "inv_buyerEmail": "abc@gmail.com",
         "inv_buyerBankAccount": "100003131",
         "inv_buyerBankName": "Ngân hàng TMCP Á Châu - ACB",
-        "OrtherTax": null,
-        "environmentalProtectionFee": null,
-        "connectorMaintenanceFee": null,
-        "drainageFee": null,
-        "serviceCharge": null,
-        "ortherFee": null,
-        "deductionVatamount": null,
-        "inv_TotalAmount": 658800,
+        "inv_TotalAmount": 610000,
         "inv_discountAmount": 0,
-        "inv_vatAmount": 48800,
-        "inv_TotalAmountWithoutVat": 610000,
-        "inv_Amount": 610000,
-        "trang_thai": 1,
-        "trang_thai_hd": 0,
-        "sobaomat": "963E56C4",
-        "macqt": null,
-        "shdon": 10,
+        "nonTaxZone": 0,
+        "isDeductionNQ43": false,
+        "tlptdoanhthu20": null,
+        "tgtck20": 0,
+        "ghi_chu": null,
+        "tthai": "Chờ ký",
+        "is_success": null,
+        "is_tthdon": 0,
+        "note_error": null,
+        "sobaomat": "6A335E1",
+        "macqt": "M2-26-UNSWC-00000000507",
+        "buyerTel": null,
+        "shdon": 13,
         "ten": "M-invoice kiểm thử HĐĐT có mã",
         "tnmua": "Nguyễn Văn A",
         "mst": "0106026495-999",
-        "dchi": "Hà Nội",
-        "buyerTel": null,
-        "buyerIdentityCard": "034090008484",
         "email": "abc@gmail.com",
-        "hoadon68_id": "3a1ed1c1-f469-2875-d3a5-e5f67444f47a",
-        "is_tthdon": "0",
-        "tthai": "Chờ ký",
-        "tgtcthue": 610000,
-        "tgtthue": 48800,
-        "tgtttbso": 658800,
-        "isOtherSystem": null,
-        "relatedInvoiceListDate": null,
-        "relatedInvoiceListNumber": null,
-        "relatedInvoiceDate": null,
-        "relatedInvoiceNumber": null,
-        "relatedInvoiceType": null,
-        "relatedInvoiceSerial": null,
-        "relatedTemplateCode": null,
-        "ghi_chu": null,
-        "is_success": null,
-        "note_error": null,
-        "id": "3a1ed1c1-f469-2875-d3a5-e5f67444f47a",
-        "phong": null,
-        "doan": null,
-        "ngayden": null,
-        "ngaydi": null,
-        "phidv": 0,
-        "nonTaxZone": null,
-        "so_phong": null,
-        "so_folio": null,
-        "fieldName0": null,
-        "inv_departureDate": null,
-        "tencuahang": "Cửa hàng xăng dầu 001",
-        "dchicuahang": null,
-        "macuahang": "CUAHANG001",
+        "id": "3a1ed1bf-5946-a3e3-c27d-4b4ff2cab363",
+        "trang_thai": 1,
+        "trang_thai_hd": 0,
         "ma_dt": null,
-        "ma_voi_bom": null,
+        "hoadon68_id": "3a1ed1bf-5946-a3e3-c27d-4b4ff2cab363",
+        "tgtthue": null,
+        "tgtttbso": 610000,
         "bien_so_xe": null,
-        "inv_productCode": null,
-        "inv_productName": null,
         "socialDeductionAmount": null,
         "ratioOrtherTax": null,
         "so_hchieu": "G1A2B3C4D",
         "mdvqhnsach_nmua": "2000005",
         "ten_ch": "Cửa hàng xăng dầu 001",
         "ma_ch": "CUAHANG001",
-        "cccd": "034090008484",
         "cccdan": "034090008484",
-        "sdtnmua": null,
-        "vinpoint_tichluy": null,
-        "vinpoint_thanhtoan": null,
         "details": {
             "data": [
                 {
@@ -282,20 +220,21 @@ export default function InvoiceUnsignedPage() {
                     "inv_unitCode": "Phần",
                     "inv_quantity": 1,
                     "inv_unitPrice": 120000,
-                    "phidichvu": null,
                     "inv_discountPercentage": 0,
                     "inv_discountAmount": 0,
-                    "inv_Amount": 120000,
                     "inv_TotalAmountWithoutVat": 120000,
-                    "ma_thue": "8",
-                    "inv_vatAmount": 9600,
-                    "inv_TotalAmount": 129600,
+                    "inv_tiencong": null,
+                    "inv_vatAmountDeduction": null,
+                    "inv_vatRateDeduction": null,
+                    "inv_TotalAmount": null,
+                    "inv_purity": null,
+                    "inv_weight": null,
+                    "inv_labourCost": null,
                     "skhung": null,
                     "smay": null,
                     "bien_sxe": null,
                     "ten_ngui": null,
                     "mst_ngui": null,
-                    "san_luong": null,
                     "sddanh_ngui": null,
                     "dchi_ngui": null
                 },
@@ -307,20 +246,21 @@ export default function InvoiceUnsignedPage() {
                     "inv_unitCode": "Phần",
                     "inv_quantity": 2,
                     "inv_unitPrice": 245000,
-                    "phidichvu": null,
                     "inv_discountPercentage": 0,
                     "inv_discountAmount": 0,
-                    "inv_Amount": 490000,
                     "inv_TotalAmountWithoutVat": 490000,
-                    "ma_thue": "8",
-                    "inv_vatAmount": 39200,
-                    "inv_TotalAmount": 529200,
+                    "inv_tiencong": null,
+                    "inv_vatAmountDeduction": null,
+                    "inv_vatRateDeduction": null,
+                    "inv_TotalAmount": null,
+                    "inv_purity": null,
+                    "inv_weight": null,
+                    "inv_labourCost": null,
                     "skhung": null,
                     "smay": null,
                     "bien_sxe": null,
                     "ten_ngui": null,
                     "mst_ngui": null,
-                    "san_luong": null,
                     "sddanh_ngui": null,
                     "dchi_ngui": null
                 }
@@ -328,7 +268,7 @@ export default function InvoiceUnsignedPage() {
         }
     }
 }`}
-          </pre>
+          </CodeBlock>
         </article>
 
         {/* 3. Footer Navigation */}
